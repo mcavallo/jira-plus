@@ -1,5 +1,12 @@
 {
-  "name": "Jira+",
-  "version": "1.0",
-  "private": true
+  "name": "jira-plus",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node ./scripts/build.js"
+  },
+  "devDependencies": {
+    "compare-versions": "^3.1.0",
+    "xml2js": "^0.4.19"
+  }
 }
