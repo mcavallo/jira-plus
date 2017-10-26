@@ -1,7 +1,7 @@
 {
   "name": "Jira+",
   "description": "Turns team field displayed on board cards into color coded lines",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "icons": {
     "16": "icon/16.png",
     "48": "icon/48.png",

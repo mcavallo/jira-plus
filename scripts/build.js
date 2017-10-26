@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const exec = require('child_process').exec
+const del = require('del')
 const xml2js = require('xml2js')
 const compareVersions = require('compare-versions')
 
@@ -41,7 +42,7 @@ const readUpdates = () => new Promise(function(resolve, reject) {
       return reject(`Manifest version (${manifest.version}) must be greater than the latest update (${latestVersion})`)
     }
 
-    updates.gupdate.app[0].updatecheck.push(updateTemplate(manifest.version))
+    updates.gupdate.app[0].updatecheck = [updateTemplate(manifest.version)]
     resolve(updates)
 
   })
@@ -67,6 +68,15 @@ const packExtension = (updates) => new Promise(function(resolve, reject) {
     resolve(updates)
 
   })
+
+})
+
+
+const clearOldReleases = (updates) => new Promise(function(resolve, reject) {
+
+  del([path.join(paths.releases, '*.crx')]).then(paths => {
+    resolve(updates)
+  });
 
 })
 
@@ -115,6 +125,7 @@ const registerUpdate = (updates) => new Promise(function(resolve, reject) {
 
 readUpdates()
   .then(packExtension)
+  .then(clearOldReleases)
   .then(movePackedExtension)
   .then(registerUpdate)
   .then(() => {
