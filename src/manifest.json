@@ -19,5 +19,5 @@
     }
   ],
   "manifest_version": 2,
-  "update_url": "http://myhost.com/mytestextension/updates.xml",
+  "update_url": "https://bitbucket.org/mcavallo/jira-plus/raw/eca92f4bec052f25e15d447af8a5366710aa9748/releases/updates.xml"
 }
