@@ -1,0 +1,23 @@
+{
+  "name": "Jira+",
+  "description": "Turns team field displayed on board cards into color coded lines",
+  "version": "0.0.3",
+  "icons": {
+    "16": "icon/16.png",
+    "48": "icon/48.png",
+    "128": "icon/128.png"
+  },
+  "permissions": [
+    "storage",
+    "https://*.atlassian.net/**/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "manifest_version": 2,
+  "update_url": "http://myhost.com/mytestextension/updates.xml",
+}
