@@ -1,7 +1,7 @@
 {
   "name": "Jira+",
   "description": "Turns team field displayed on board cards into color coded lines",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "icons": {
     "16": "icon/16.png",
     "48": "icon/48.png",
@@ -19,5 +19,6 @@
     }
   ],
   "manifest_version": 2,
+  "homepage_url": "https://github.com/mcavallo/jira-plus",
   "update_url": "https://raw.githubusercontent.com/mcavallo/jira-plus/master/releases/updates.xml"
 }
