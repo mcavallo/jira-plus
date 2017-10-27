@@ -10,17 +10,23 @@ const paths = {
   src: path.resolve('./src'),
   releases: path.resolve('./releases'),
   key: path.resolve('./key.pem'),
-  updatesXml: path.resolve(`./releases/updates.xml`)
+  updatesXml: path.resolve(`./releases/updates.xml`),
+  readme: path.resolve(`./README.md`)
 }
 
 const manifest = require(path.join(paths.src, 'manifest.json'))
+
+
+const releaseLink = (version) => {
+  return `https://raw.githubusercontent.com/mcavallo/jira-plus/master/releases/${version}.crx`
+}
 
 
 const updateTemplate = (version) => {
 
   return {
     $: {
-      codebase: `https://raw.githubusercontent.com/mcavallo/jira-plus/master/releases/${version}.crx`,
+      codebase: releaseLink(version),
       version: version
     }
   }
@@ -28,7 +34,7 @@ const updateTemplate = (version) => {
 }
 
 
-const readUpdates = () => new Promise(function(resolve, reject) {
+const readUpdates = () => new Promise((resolve, reject) => {
 
   let xml = fs.readFileSync(paths.updatesXml)
   let parser = new xml2js.Parser()
@@ -50,7 +56,7 @@ const readUpdates = () => new Promise(function(resolve, reject) {
 })
 
 
-const packExtension = (updates) => new Promise(function(resolve, reject) {
+const packExtension = (updates) => new Promise((resolve, reject) => {
 
   let cmd = [
     `/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome`,
@@ -72,7 +78,7 @@ const packExtension = (updates) => new Promise(function(resolve, reject) {
 })
 
 
-const clearOldReleases = (updates) => new Promise(function(resolve, reject) {
+const clearOldReleases = (updates) => new Promise((resolve, reject) => {
 
   del([path.join(paths.releases, '*.crx')]).then(paths => {
     resolve(updates)
@@ -81,7 +87,7 @@ const clearOldReleases = (updates) => new Promise(function(resolve, reject) {
 })
 
 
-const movePackedExtension = (updates) => new Promise(function(resolve, reject) {
+const movePackedExtension = (updates) => new Promise((resolve, reject) => {
 
   let src = path.join(paths.root, 'src.crx')
   let dest = path.join(paths.releases, `${manifest.version}.crx`)
@@ -99,7 +105,7 @@ const movePackedExtension = (updates) => new Promise(function(resolve, reject) {
 })
 
 
-const registerUpdate = (updates) => new Promise(function(resolve, reject) {
+const registerUpdate = (updates) => new Promise((resolve, reject) => {
 
     let builder = new xml2js.Builder({
       xmldec: {
@@ -116,9 +122,31 @@ const registerUpdate = (updates) => new Promise(function(resolve, reject) {
         return reject(`Updates file couldn't be written`)
       }
 
-      resolve()
+      resolve(updates)
 
     })
+
+})
+
+
+const updateReadme = (updates) => new Promise((resolve, reject) => {
+
+  let readmeContent = fs.readFileSync(paths.readme, 'utf-8')
+
+  readmeContent = readmeContent.replace(
+    /^\[latest-release\]:.*$/m,
+    `[latest-release]: ${releaseLink(manifest.version)}`
+  )
+
+  fs.writeFile(paths.readme, readmeContent, (err) => {
+
+    if (err) {
+      return reject(`Readme file couldn't be written`)
+    }
+
+    resolve(updates)
+
+  })
 
 })
 
@@ -128,6 +156,7 @@ readUpdates()
   .then(clearOldReleases)
   .then(movePackedExtension)
   .then(registerUpdate)
+  .then(updateReadme)
   .then(() => {
     console.log(`🚀`)
   })
