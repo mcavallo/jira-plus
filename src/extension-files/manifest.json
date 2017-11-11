@@ -1,6 +1,6 @@
 {
   "name": "Jira+",
-  "description": "Turns team field displayed on board cards into color coded lines",
+  "description": "Make Jira cloud great again (If it ever was)",
   "version": "0.0.6",
   "icons": {
     "16": "icon/16.png",
@@ -13,11 +13,26 @@
   ],
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"],
+      "matches": [
+        "https://*.atlassian.net/**/*"
+      ],
+      "js": [
+        "content.js"
+      ],
       "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "https://*.atlassian.net/**/*"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "run_at": "document_start"
     }
   ],
+  "options_page": "options.html",
+  "minimum_chrome_version": "61",
   "manifest_version": 2,
   "homepage_url": "https://github.com/mcavallo/jira-plus",
   "update_url": "https://raw.githubusercontent.com/mcavallo/jira-plus/master/releases/updates.xml"
