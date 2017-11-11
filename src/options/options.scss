@@ -1,0 +1,126 @@
+@import "../sass/mixins";
+@import "../sass/placeholders";
+
+@import "~normalize.css";
+@import "~spectre.css/dist/spectre.css";
+@import "~spectre.css/dist/spectre-icons.css";
+
+html, body {
+  @extend %flex-box-column;
+  height: 100%;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+
+#options {
+  @extend %flex-one;
+  @extend %flex-box-column;
+  min-width: 720px;
+}
+
+#logo {
+  font-weight: 300;
+  opacity: .3;
+  float: right;
+}
+
+.outer-wrap {
+  @extend %flex-one;
+  @extend %flex-box-column;
+}
+
+header {
+  position: relative;
+  @extend %flex-auto;
+  background: rgba(white, .95);
+  height: 75px;
+  border-bottom: 1px solid rgba(black, .05);
+  box-shadow: 0 0 10px rgba(black, .05);
+  padding: 15px 15px 0;
+
+  h1 {
+    margin: 0;
+  }
+
+  .save-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    color: #999;
+  }
+}
+
+.empty {
+  @extend %flex-one;
+}
+
+section {
+  @extend %flex-one;
+  @extend %scrollable;
+}
+
+.buttons {
+  padding: 15px;
+  text-align: center;
+
+  .btn {
+    margin-left: 20px;
+
+    &:first-of-type {
+      margin-left: 0;
+    }
+  }
+}
+
+.team {
+  @extend %flex-box-row;
+  padding: 35px 15px 20px 15px;
+
+  &:nth-child(even) {
+    background: rgba(white, .75);
+  }
+
+  .team-field {
+    &-name {
+      @extend %flex-one;
+    }
+
+    &-color {
+      @extend %flex-auto;
+      min-width: 220px;
+      margin-left: 15px;
+    }
+
+    &-remove {
+      @extend %flex-auto;
+      margin-left: 15px;
+    }
+  }
+
+  label {
+    span {
+      position: absolute;
+      top: -22px;
+
+      &.error-display {
+        right: 5px;
+        font-size: .7rem;
+        color: #e85600;
+        opacity: 0;
+        transition: all .2s ease;
+      }
+    }
+  }
+
+  .form-group {
+    position: relative;
+
+    &.has-error label span.error-display {
+      opacity: 1;
+      right: 0;
+    }
+  }
+}
