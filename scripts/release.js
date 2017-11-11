@@ -7,14 +7,14 @@ const compareVersions = require('compare-versions')
 
 const paths = {
   root: path.resolve('./'),
-  src: path.resolve('./src'),
+  dist: path.resolve('./dist'),
   releases: path.resolve('./releases'),
   key: path.resolve('./key.pem'),
   updatesXml: path.resolve(`./releases/updates.xml`),
   readme: path.resolve(`./README.md`)
 }
 
-const manifest = require(path.join(paths.src, 'manifest.json'))
+const manifest = require(path.join(paths.dist, 'manifest.json'))
 
 
 const releaseLink = (version) => {
@@ -60,7 +60,7 @@ const packExtension = (updates) => new Promise((resolve, reject) => {
 
   let cmd = [
     `/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome`,
-    `--pack-extension="${paths.src}"`,
+    `--pack-extension="${paths.dist}"`,
     `--pack-extension-key="${paths.key}"`
   ].join(' ')
 
@@ -89,7 +89,7 @@ const clearOldReleases = (updates) => new Promise((resolve, reject) => {
 
 const movePackedExtension = (updates) => new Promise((resolve, reject) => {
 
-  let src = path.join(paths.root, 'src.crx')
+  let src = path.join(paths.root, 'dist.crx')
   let dest = path.join(paths.releases, `${manifest.version}.crx`)
 
   fs.rename(src, dest, err => {
