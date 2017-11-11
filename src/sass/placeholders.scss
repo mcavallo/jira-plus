@@ -1,0 +1,50 @@
+@import "./mixins";
+
+%clearfix {
+  *zoom: 1;
+
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
+%scrollable {
+  height: 100%;
+  overflow: auto;
+}
+
+%flex-box-column {
+  @include flex-box();
+  @include flex-direction(column);
+}
+
+%flex-box-row {
+  @include flex-box();
+  @include flex-direction(row);
+}
+
+%flex-box-row-wrap {
+  @include flex-box();
+  @include flex-direction(row);
+  @include flex-wrap();
+}
+
+%flex-auto {
+  @include flex(0 0 auto);
+}
+
+%flex-one {
+  @include flex(1 1 0%);
+  min-height: 0;
+  min-width: 0;
+}
+
+%flex-two {
+  @include flex(2);
+}
