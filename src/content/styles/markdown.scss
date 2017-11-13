@@ -8,95 +8,84 @@
   visibility: visible;
 }
 
-.markdown-ready > *:first-child {
-  margin-top: 0 !important;
-}
+.markdown-ready {
+  > *:first-child {
+    margin-top: 0 !important;
+  }
 
-.markdown-ready p,
-.markdown-ready ul,
-.markdown-ready ol,
-.markdown-ready dl,
-.markdown-ready h1,
-.markdown-ready h2,
-.markdown-ready h3,
-.markdown-ready h4,
-.markdown-ready h5,
-.markdown-ready h6,
-.markdown-ready blockquote,
-.markdown-ready pre,
-.markdown-ready table,
-.markdown-ready img {
-  margin-top: 12px;
-}
+  p,
+  ul,
+  ol,
+  dl,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  blockquote,
+  pre,
+  table,
+  img {
+    margin-top: 12px !important;
 
-.markdown-ready p:first-child,
-.markdown-ready ul:first-child,
-.markdown-ready ol:first-child,
-.markdown-ready dl:first-child,
-.markdown-ready h1:first-child,
-.markdown-ready h2:first-child,
-.markdown-ready h3:first-child,
-.markdown-ready h4:first-child,
-.markdown-ready h5:first-child,
-.markdown-ready h6:first-child,
-.markdown-ready blockquote:first-child,
-.markdown-ready pre:first-child,
-.markdown-ready table:first-child,
-.markdown-ready img:first-child {
-  margin-top: 0;
-}
+    &:first-child {
+      margin-top: 0 !important;
+    }
+  }
 
-.markdown-ready img {
-  max-width: 100%;
-  display: block;
-}
+  img {
+    max-width: 100%;
+    display: block;
+  }
 
-.markdown-ready blockquote {
-  border-left-width: 2px;
-  margin-left: 15px;
-  padding: 10px 15px;
-}
+  blockquote {
+    border-left-width: 2px;
+    margin-left: 15px;
+    padding: 10px 15px;
+  }
 
-.markdown-ready ul,
-.markdown-ready ol {
-  padding-left: 25px;
-}
+  ul,
+  ol {
+    padding-left: 25px;
+  }
 
-.markdown-ready code,
-.markdown-ready pre {
-  font-family: Menlo, Courier, monospace;
-  background: rgba(0, 0, 0, .03);
-  font-size: 90%;
-  border-radius: 3px;
-}
+  code,
+  pre {
+    font-family: Menlo, Courier, monospace;
+    background: rgba(0, 0, 0, .03);
+    font-size: 90%;
+    border-radius: 3px;
+  }
 
-.markdown-ready code {
-  padding: 2px 5px;
-}
+  code {
+    padding: 2px 5px;
+  }
 
-.markdown-ready pre {
-  padding: 12px;
-  line-height: 1.4;
-  overflow: auto;
-}
+  pre {
+    padding: 12px;
+    line-height: 1.4;
+    overflow: auto;
 
-.markdown-ready pre code {
-  background: none;
-  padding: 0;
-}
+    code {
+      background: none;
+      padding: 0;
+    }
+  }
 
-.markdown-ready table {
-  width: 100%;
-  overflow: auto;
-  border-collapse: collapse;
-}
+  table {
+    width: 100%;
+    overflow: auto;
+    border-collapse: collapse;
 
-.markdown-ready table th {
-  text-align: left;
-}
+    td,
+    th {
+      padding: 6px 13px;
+      border: 1px solid #dfe2e5;
+    }
 
-.markdown-ready table td,
-.markdown-ready table th {
-  padding: 6px 13px;
-  border: 1px solid #dfe2e5;
+    th {
+      text-align: left;
+    }
+  }
 }
