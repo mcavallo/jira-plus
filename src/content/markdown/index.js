@@ -5,7 +5,8 @@ var md = new Remarkable('full', {
   html: false,
   breaks: true,
   linkify: true,
-  typographer: true
+  typographer: true,
+  linkTarget: '_blank'
 })
 
 md.use(mentions({
