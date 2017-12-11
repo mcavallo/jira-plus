@@ -5,3 +5,13 @@
 #description-val {
   min-width: 100%;
 }
+
+.issue-body-content .module > .mod-header > h1,
+.issue-body-content .module > .mod-header > h2,
+.issue-body-content .module > .mod-header > h3,
+.issue-body-content .module > .mod-header > h4,
+.issue-body-content .module > .mod-header > h5,
+.issue-body-content .module > .mod-header > h6,
+.ghx-detail-view.gh-editable-detail-view .ghx-detail-issue .module.toggle-wrap .toggle-title {
+  text-transform: uppercase;
+}
