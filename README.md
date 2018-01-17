@@ -19,7 +19,3 @@ Make Jira cloud great again (If it ever was)
 #### Team color-coded cards
 
 Add color to cards in Backlog and Kanban screens based on the team assigned.
-
-#### Markdown renderer
-
-Parses markdown in task descriptions and user comments and renders as HTML.

@@ -28,7 +28,6 @@
   },
   "dependencies": {
     "normalize.css": "^7.0.0",
-    "remarkable": "^1.7.1",
     "spectre.css": "^0.4.5"
   }
 }
