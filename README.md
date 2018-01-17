@@ -16,6 +16,18 @@ Make Jira cloud great again (If it ever was)
 
 ## Features
 
-#### Team color-coded cards
 
-Add color to cards in Backlog and Kanban screens based on the team assigned.
+### Team color-coded cards
+
+Add color to cards in Backlog and Kanban screens based on the team assigned to each card.
+
+<img src="https://raw.githubusercontent.com/mcavallo/jira-plus/master/media/team-colors.png" width="600">
+
+You can configure your teams using the extension's **options page** (coming soon)
+
+
+### Separator card
+
+Any card with a summary that starts with `-----` or `_____` will turn into a fancy separator card.
+
+<img src="https://raw.githubusercontent.com/mcavallo/jira-plus/master/media/separator-card.png" width="800">
