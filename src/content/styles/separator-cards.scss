@@ -1,0 +1,28 @@
+.ghx-summary[data-tooltip^="_____"],
+.ghx-summary[data-tooltip^="-----"] {
+  background :repeating-linear-gradient(-55deg, white, white 10px, #f4f5f7 10px, #f4f5f7 20px) !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+
+  .ghx-inner {
+    color: rgba(white, 0) !important;
+  }
+
+  &::after {
+    content: 'prioritized';
+    position: absolute;
+    color: #7A869A;
+    text-shadow: 0 0 2px rgba(white, .5);
+    letter-spacing: 0.04em;
+    font-size: 13px;
+    line-height: 1;
+    text-transform: uppercase;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+  }
+}

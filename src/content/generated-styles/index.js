@@ -12,8 +12,8 @@
   } catch (e) {}
 
   let teams = [
-    { name: "Backend (Dashboard)", color: "4c97e3" },
-    { name: "Frontend", color: "f5913f" },
+    { name: "Backend (Dashboard)", color: "2e87fb" },
+    { name: "Frontend", color: "fdac2a" },
   ]
 
   let css = teams.map(team => {
