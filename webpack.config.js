@@ -4,6 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+const AnyBarWebpackPlugin = require('anybar-webpack')
 const isProduction = (process.argv.indexOf('-p') !== -1)
 
 module.exports = {
@@ -70,6 +71,7 @@ module.exports = {
     ], {
       copyUnmodified: true
     }),
+    new AnyBarWebpackPlugin(),
     /*
     new UglifyJSPlugin({
       sourceMap: true,
