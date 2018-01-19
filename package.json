@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "./node_modules/webpack/bin/webpack.js --watch",
-    "build": "./node_modules/webpack/bin/webpack.js -p",
+    "dev": "./node_modules/.bin/webpack --watch",
+    "build": "./node_modules/.bin/webpack -p",
     "release": "node ./scripts/release.js"
   },
   "devDependencies": {
@@ -23,12 +23,12 @@
     "node-sass": "^4.5.3",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",
-    "uglifyjs-webpack-plugin": "^1.0.1",
+    "uglifyjs-webpack-plugin": "^1.1.6",
     "webpack": "^3.8.1",
     "xml2js": "^0.4.19"
   },
   "dependencies": {
     "normalize.css": "^7.0.0",
-    "spectre.css": "^0.4.5"
+    "spectre.css": "^0.5.0"
   }
 }

@@ -5,122 +5,144 @@
 @import "~spectre.css/dist/spectre.css";
 @import "~spectre.css/dist/spectre-icons.css";
 
+$color-page-bg: #F4F5F7;
+$color-team: #333;
+$color-team-bg: white;
+$color-team-bg-hover: #ebecf0;
+$color-team-shadow: rgba(9, 30, 66, 0.25);
+
+@keyframes teamEnter {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 html, body {
-  @extend %flex-box-column;
   height: 100%;
   overflow: hidden;
-  background: #f8f9fa;
+  background: $color-page-bg;
+  user-select: none;
 }
 
-#options {
-  @extend %flex-one;
-  @extend %flex-box-column;
-  min-width: 720px;
+input {
+  user-select: text;
 }
 
-#logo {
-  font-weight: 300;
-  opacity: .3;
-  float: right;
-}
-
-.outer-wrap {
-  @extend %flex-one;
-  @extend %flex-box-column;
+.elm-overlay {
+  z-index: 9999;
 }
 
 header {
-  position: relative;
-  @extend %flex-auto;
-  background: rgba(white, .95);
-  height: 75px;
-  border-bottom: 1px solid rgba(black, .05);
-  box-shadow: 0 0 10px rgba(black, .05);
-  padding: 15px 15px 0;
+  padding: 10px 0;
+}
 
-  h1 {
-    margin: 0;
+.navbar-section {
+  .dropdown,
+  .btn {
+    margin-left: 5px;
   }
+}
 
-  .save-message {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    text-align: center;
-    transform: translate(-50%, -50%);
-    font-size: 20px;
-    color: #999;
+.outer-wrap {
+  padding: 0 15px;
+  transition: all 250ms ease-in-out;
+  opacity: 0;
+
+  &.loaded {
+    opacity: 1;
   }
 }
 
 .empty {
-  @extend %flex-one;
+  background: transparent;
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
 }
 
-section {
-  @extend %flex-one;
-  @extend %scrollable;
-}
+.menu {
+  .menu-item {
+    &.disabled {
+      pointer-events: none;
+      opacity: .3;
+    }
 
-.buttons {
-  padding: 15px;
-  text-align: center;
-
-  .btn {
-    margin-left: 20px;
-
-    &:first-of-type {
-      margin-left: 0;
+    a {
+      cursor: pointer;
     }
   }
 }
 
-.team {
-  @extend %flex-box-row;
-  padding: 35px 15px 20px 15px;
-
-  &:nth-child(even) {
-    background: rgba(white, .75);
+.modal {
+  &.modal-sm .modal-container {
+    max-width: 360px;
+    padding: 0 .4rem;
   }
 
-  .team-field {
-    &-name {
-      @extend %flex-one;
-    }
-
-    &-color {
-      @extend %flex-auto;
-      min-width: 220px;
-      margin-left: 15px;
-    }
-
-    &-remove {
-      @extend %flex-auto;
-      margin-left: 15px;
-    }
+  .modal-container .modal-body {
+    padding-top: 0;
+    max-height: 60vh;
   }
 
-  label {
-    span {
-      position: absolute;
-      top: -22px;
+  .modal-footer {
+    .btn-error {
+      float: left;
+    }
 
-      &.error-display {
-        right: 5px;
-        font-size: .7rem;
-        color: #e85600;
-        opacity: 0;
-        transition: all .2s ease;
+    .btn-form {
+      margin-left: 10px;
+      min-width: 70px;
+
+      &:first-of-type {
+        margin-left: 0;
       }
     }
   }
+}
 
-  .form-group {
+.teams {
+  margin: 0;
+
+  > li {
+    vertical-align: top;
+    background: $color-team-bg;
+    border-radius: 2px;
+    box-shadow: 0px 1px 2px 0px $color-team-shadow;
+    color: $color-team;
+    font-size: 14px;
+    line-height: 16px;
+    margin: 0 15px 15px 0;
+    padding: 10px;
     position: relative;
+    display: inline-block;
+    width: 220px;
+    cursor: pointer;
+    transition: background-color 140ms ease-in-out;
+    animation: 300ms ease-in-out teamEnter;
 
-    &.has-error label span.error-display {
-      opacity: 1;
-      right: 0;
+    &:hover {
+      background: $color-team-bg-hover;
+    }
+
+    .name {
+      display: block;
+      min-height: 48px;
+    }
+
+    .color {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: transparent;
     }
   }
 }

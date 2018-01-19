@@ -1,102 +1,71 @@
 port module Options.Ports exposing (..)
 
-import Array exposing (Array)
-import Json.Encode as Encode exposing (Value, encode, string, object, array)
-import Json.Decode as Decode exposing (Decoder, decodeValue)
-import Json.Decode.Pipeline exposing (decode, required, requiredAt, hardcoded)
-import Options.Types exposing (..)
-import Options.Model exposing (Model)
-import Debug
+import Json.Decode exposing (Decoder)
+import Json.Decode.Pipeline exposing (..)
+import Options.Model exposing (..)
+import Keyboard
 
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
     Sub.batch
-        [ saveToStorageResult (decodeSaveResult >> SaveResult)
-        , loadFromStorage (decodeLoad >> Load)
+        [ loadFromStorage decodeTeamList
+        , clearStorageResult decodeResult
         ]
 
 
-port saveToStorage : Value -> Cmd msg
+
+{- TODO: Handle properly:
+   > saveToStorageResult
+   > Keyboard.ups decodeKeyCode
+-}
 
 
-port saveToStorageResult : (Value -> msg) -> Sub msg
+port loadFromStorage : (Json.Decode.Value -> msg) -> Sub msg
 
 
-port loadFromStorage : (Value -> msg) -> Sub msg
+port saveToStorage : List Team -> Cmd msg
 
 
-decodeLoad : Value -> Array Team
-decodeLoad val =
-    let
-        result =
-            decodeValue teamsArrayDecoder val
-    in
-        case result of
-            Ok teams ->
-                teams
-
-            Err e ->
-                Debug.log (toString e) Array.empty
+port saveToStorageResult : (Json.Decode.Value -> msg) -> Sub msg
 
 
-decodeSaveResult : Value -> SaveStatus
-decodeSaveResult val =
-    let
-        result =
-            decodeValue Decode.string val
-    in
-        case result of
-            Ok "OK" ->
-                SaveSuccess
-
-            _ ->
-                SaveFailed
+port clearStorage : String -> Cmd msg
 
 
-encodeTeamsArray : Array Team -> Value
-encodeTeamsArray teams =
-    array
-        (Array.map
-            encodeTeam
-            teams
-        )
+port clearStorageResult : (Json.Decode.Value -> msg) -> Sub msg
 
 
-encodeTeam : Team -> Value
-encodeTeam team =
-    object
-        [ ( "name", string team.name )
-        , ( "color", string team.color )
-        ]
+decodeResult : Json.Decode.Value -> Msg
+decodeResult value =
+    case Json.Decode.decodeValue Json.Decode.bool value of
+        Ok result ->
+            HandleResultOk result
+
+        Err err ->
+            HandleDecodeErrorLog (Just err)
 
 
-teamsArrayDecoder : Decoder (Array Team)
-teamsArrayDecoder =
-    Decode.array decodeTeam
+decodeTeamList : Json.Decode.Value -> Msg
+decodeTeamList json =
+    case Json.Decode.decodeValue teamListDecoder json of
+        Ok result ->
+            HandleTeamDecodeOk result
+
+        Err err ->
+            HandleDecodeErrorLog (Just err)
 
 
-decodeTeam : Decoder Team
-decodeTeam =
+
+
+teamListDecoder : Decoder (List Team)
+teamListDecoder =
+    Json.Decode.list teamDecoder
+
+
+teamDecoder : Decoder Team
+teamDecoder =
     decode Team
-        |> required "name" Decode.string
-        |> hardcoded Unchanged
-        |> required "color" Decode.string
-        |> hardcoded Unchanged
-
-
-
--- decodeTeam : Value -> Team
--- decodeTeam v =
---     let
---         decoder =
---             Decode.map2 (,)
---                 (Decode.field "name" Decode.string)
---                 (Decode.field "color" Decode.string)
---     in
---         case Decode.decodeValue decoder v of
---             Ok ( name, color ) ->
---                 Team name Unchanged color Unchanged
---
---             _ ->
---                 Team "" Unchanged "" Unchanged
+        |> required "id" Json.Decode.int
+        |> required "name" Json.Decode.string
+        |> required "color" Json.Decode.string

@@ -1,24 +1,30 @@
 import './options.scss'
 
-var storage = chrome.storage.sync
+const storage = chrome.storage.sync
+const Elm = require('./elm/Options/Main.elm')
+const app = Elm.Options.Main.embed(document.getElementById('options'))
 
-var Elm = require('./elm/Options/Main.elm')
-var app = Elm.Options.Main.embed(document.getElementById('options'))
-
-app.ports.saveToStorage.subscribe(handleSaveToStorage)
-
-document.body.onload = function() {
+document.body.onload = () => {
+  app.ports.saveToStorage.subscribe(handleSaveToStorage)
+  app.ports.clearStorage.subscribe(handleClearStorage)
   storage.get('teams', handleLoadFromStorage)
 }
 
-function handleSaveToStorage(teams) {
-  storage.set({ teams: teams }, function() {
-    app.ports.saveToStorageResult.send(
-      !!chrome.runtime.error ? 'FAIL' : 'OK'
-    );
-  });
+const handleLoadFromStorage = (data) => {
+  app.ports.loadFromStorage
+    .send(data.teams || [])
 }
 
-function handleLoadFromStorage(data) {
-  app.ports.loadFromStorage.send(data.teams);
+const handleSaveToStorage = (teams) => {
+  storage.set({ teams: teams }, () => {
+    app.ports.saveToStorageResult
+      .send(!chrome.runtime.error)
+  })
+}
+
+const handleClearStorage = () => {
+  storage.remove('teams', () => {
+    app.ports.clearStorageResult
+      .send(!chrome.runtime.error)
+  })
 }
