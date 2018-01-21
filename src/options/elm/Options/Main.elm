@@ -217,7 +217,7 @@ setTeamToEdit id model =
 
 setFormDirty : Model -> Model
 setFormDirty model =
-    { model | form = setFormPristine False model.form }
+    { model | form = (setFormPristine False model.form) }
 
 
 setFormValue : (Team -> Team) -> Model -> Model

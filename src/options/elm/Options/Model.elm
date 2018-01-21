@@ -58,12 +58,7 @@ type Msg
 
 initialModel : Bool -> Model
 initialModel isLoaded =
-    { teams =
-        []
-
-    -- [ Team 1 "Backend (Dashboard)" "#2e87fb"
-    -- , Team 2 "Frontend" "#fdac2a"
-    -- ]
+    { teams = []
     , form = (emptyForm False False)
     , isLoaded = isLoaded
     , isImporting = False
@@ -77,22 +72,22 @@ initialModel isLoaded =
 formForTeam : Team -> TeamForm
 formForTeam team =
     let
-        form =
+        newForm =
             emptyForm True False
     in
-        { form | team = team }
+        { newForm | team = team }
 
 
 formForNewTeam : Model -> TeamForm
 formForNewTeam model =
     let
-        form =
+        newForm =
             emptyForm True True
 
         team =
             { emptyTeam | id = (List.length model.teams) + 1 }
     in
-        { form | team = team }
+        { newForm | team = team }
 
 
 emptyForm : Bool -> Bool -> TeamForm
@@ -136,14 +131,13 @@ setFormPristine status form =
 
 validateForm : Model -> Model
 validateForm model =
-    let
-        newForm =
+    { model
+        | form =
             model.form
                 |> setFormValid
                 |> validateTeamName
                 |> validateTeamColor
-    in
-        { model | form = newForm }
+    }
 
 
 setFormValid : TeamForm -> TeamForm
@@ -182,7 +176,10 @@ validateTeamName form =
         if (validate rules form.team.name) then
             { form | nameError = Nothing }
         else
-            { form | nameError = Just "Can't be empty or too long", isValid = False }
+            { form
+                | nameError = Just "Can't be empty or too long"
+                , isValid = False
+            }
 
 
 validateTeamColor : TeamForm -> TeamForm
@@ -195,4 +192,7 @@ validateTeamColor form =
         if (validate rules form.team.color) then
             { form | colorError = Nothing }
         else
-            { form | colorError = Just "Must be a valid color", isValid = False }
+            { form
+                | colorError = Just "Must be a valid color"
+                , isValid = False
+            }
