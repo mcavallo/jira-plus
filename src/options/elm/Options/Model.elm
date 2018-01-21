@@ -5,6 +5,11 @@ type alias Model =
     { teams : List Team
     , form : TeamForm
     , isLoaded : Bool
+    , isImporting : Bool
+    , isImportError : Bool
+    , importData : String
+    , isExporting : Bool
+    , exportData : String
     }
 
 
@@ -36,15 +41,23 @@ type Msg
     | FormSave
     | InputName String
     | InputColor String
+    | InputImportData String
     | ClearStorageData
     | SetStorageData
-    | HandleResultOk Bool
+    | ImportData
+    | ImportDataCancel
+    | ImportDataSave
+    | ImportDataFailed
+    | ExportData
+    | ExportDataCancel
+    | HandleClearStorageOk Bool
     | HandleTeamDecodeOk (List Team)
+    | HandleExportOk String
     | HandleDecodeErrorLog (Maybe String)
 
 
-initialModel : Model
-initialModel =
+initialModel : Bool -> Model
+initialModel isLoaded =
     { teams =
         []
 
@@ -52,7 +65,12 @@ initialModel =
     -- , Team 2 "Frontend" "#fdac2a"
     -- ]
     , form = (emptyForm False False)
-    , isLoaded = False
+    , isLoaded = isLoaded
+    , isImporting = False
+    , isImportError = False
+    , importData = ""
+    , isExporting = False
+    , exportData = ""
     }
 
 

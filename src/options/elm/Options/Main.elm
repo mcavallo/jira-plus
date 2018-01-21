@@ -1,5 +1,6 @@
 port module Options.Main exposing (main)
 
+import Base64
 import Html
 import Dom
 import Task
@@ -20,7 +21,7 @@ main =
 
 init : ( Model, Cmd Msg )
 init =
-    initialModel ! []
+    (initialModel False) ! []
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -65,22 +66,74 @@ update msg model =
             )
                 ! []
 
+        InputImportData data ->
+            { model
+                | isImportError = False
+                , importData = data
+            }
+                ! []
+
         ClearStorageData ->
             model ! [ clearStorage "" ]
 
         SetStorageData ->
             model ! [ saveToStorage model.teams ]
 
-        HandleResultOk result ->
+        ImportData ->
+            { model
+                | isImporting = True
+                , isImportError = False
+                , importData = ""
+            }
+                ! []
+
+        ImportDataCancel ->
+            { model
+                | isImporting = False
+                , isImportError = False
+                , importData = ""
+            }
+                ! []
+
+        ImportDataSave ->
+            handleImportDataSave model
+
+        ImportDataFailed ->
+            { model | isImportError = True } ! []
+
+        ExportData ->
             let
-                _ =
-                    Debug.log "HandleResultOk" result
+                encoded =
+                    model.teams
+                        |> encodeTeams
+                        |> Base64.encode
             in
-                model ! []
+                { model
+                    | isExporting = True
+                    , exportData = encoded
+                }
+                    ! []
+
+        ExportDataCancel ->
+            { model
+                | isExporting = False
+                , exportData = ""
+            }
+                ! []
+
+        HandleClearStorageOk result ->
+            let
+                newModel =
+                    initialModel True
+            in
+                newModel ! []
 
         HandleTeamDecodeOk result ->
             { model | teams = result }
                 |> update InitialLoadComplete
+
+        HandleExportOk result ->
+            { model | exportData = result } ! []
 
         HandleDecodeErrorLog err ->
             let
@@ -123,6 +176,21 @@ handleFormSave model =
             { newModel | teams = (newTeam :: model.teams) }
         else
             { newModel | teams = (updateTeam model.teams newTeam) }
+
+
+handleImportDataSave : Model -> ( Model, Cmd Msg )
+handleImportDataSave model =
+    case Base64.decode model.importData of
+        Ok result ->
+            case decodeImportTeamList result of
+                Ok result ->
+                    update ImportDataCancel { model | teams = result }
+
+                Err err ->
+                    update ImportDataFailed model
+
+        Err err ->
+            update ImportDataFailed model
 
 
 updateTeam : List Team -> Team -> List Team

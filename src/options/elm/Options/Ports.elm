@@ -2,8 +2,9 @@ port module Options.Ports exposing (..)
 
 import Json.Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (..)
-import Options.Model exposing (..)
+import Json.Encode
 import Keyboard
+import Options.Model exposing (..)
 
 
 subscriptions : Model -> Sub Msg
@@ -36,11 +37,16 @@ port clearStorage : String -> Cmd msg
 port clearStorageResult : (Json.Decode.Value -> msg) -> Sub msg
 
 
+encodeTeams : List Team -> String
+encodeTeams teams =
+    Json.Encode.encode 0 (teamListEncoder teams)
+
+
 decodeResult : Json.Decode.Value -> Msg
 decodeResult value =
     case Json.Decode.decodeValue Json.Decode.bool value of
         Ok result ->
-            HandleResultOk result
+            HandleClearStorageOk result
 
         Err err ->
             HandleDecodeErrorLog (Just err)
@@ -56,6 +62,9 @@ decodeTeamList json =
             HandleDecodeErrorLog (Just err)
 
 
+decodeImportTeamList : String -> Result.Result String (List Team)
+decodeImportTeamList json =
+    Json.Decode.decodeString teamListDecoder json
 
 
 teamListDecoder : Decoder (List Team)
@@ -69,3 +78,17 @@ teamDecoder =
         |> required "id" Json.Decode.int
         |> required "name" Json.Decode.string
         |> required "color" Json.Decode.string
+
+
+teamListEncoder : List Team -> Json.Encode.Value
+teamListEncoder teams =
+    Json.Encode.list (List.map teamEncoder teams)
+
+
+teamEncoder : Team -> Json.Encode.Value
+teamEncoder team =
+    Json.Encode.object
+        [ ( "id", Json.Encode.int team.id )
+        , ( "name", Json.Encode.string team.name )
+        , ( "color", Json.Encode.string team.color )
+        ]

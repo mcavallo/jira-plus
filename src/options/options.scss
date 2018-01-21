@@ -81,29 +81,47 @@ header {
 }
 
 .modal {
-  &.modal-sm .modal-container {
-    max-width: 360px;
-    padding: 0 .4rem;
-  }
+  &.modal-form {
+    .modal-container {
+      max-width: 360px;
+      padding: 0 .4rem;
 
-  .modal-container .modal-body {
-    padding-top: 0;
-    max-height: 60vh;
-  }
-
-  .modal-footer {
-    .btn-error {
-      float: left;
-    }
-
-    .btn-form {
-      margin-left: 10px;
-      min-width: 70px;
-
-      &:first-of-type {
-        margin-left: 0;
+      .modal-body {
+        padding-top: 0;
+        max-height: 60vh;
       }
     }
+
+    .modal-footer {
+      .btn-error {
+        float: left;
+      }
+
+      .btn-form {
+        margin-left: 10px;
+        min-width: 70px;
+
+        &:first-of-type {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+
+  code {
+    white-space: pre-wrap;
+    word-break: break-all;
+    user-select: text;
+    background: #f8f9fa;
+  }
+
+  .toast-error {
+    margin-bottom: 10px;
+  }
+
+  textarea.import {
+    height: 160px;
+    resize: none;
   }
 }
 

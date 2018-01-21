@@ -15,6 +15,8 @@ view model =
         [ headerView model
         , teamsListView model
         , formModalView model
+        , exportModalView model
+        , importModalView model
         ]
 
 
@@ -40,21 +42,35 @@ headerView model =
                 , ul [ class "menu" ]
                     [ li [ class "divider", attribute "data-content" "DATA" ]
                         []
-                    , li [ class "menu-item disabled" ]
-                        [ a []
+                    , li [ class "menu-item" ]
+                        [ a [ onClick ImportData ]
                             [ text "Import" ]
                         ]
-                    , li [ class "menu-item disabled" ]
-                        [ a []
-                            [ text "Export" ]
-                        ]
-                    , li [ class "menu-item" ]
-                        [ a [ onClick ClearStorageData ]
-                            [ text "Destroy" ]
-                        ]
+                    , exportDataLink model
+                    , destroyDataLink model
                     ]
                 ]
             ]
+        ]
+
+
+exportDataLink : Model -> Html Msg
+exportDataLink model =
+    li
+        [ class "menu-item"
+        , classList [ ( "disabled", List.length model.teams == 0 ) ]
+        ]
+        [ a [ onClick ExportData ] [ text "Export" ]
+        ]
+
+
+destroyDataLink : Model -> Html Msg
+destroyDataLink model =
+    li
+        [ class "menu-item"
+        , classList [ ( "disabled", List.length model.teams == 0 ) ]
+        ]
+        [ a [ onClick ClearStorageData ] [ text "Destroy" ]
         ]
 
 
@@ -112,9 +128,7 @@ formModalHeader model =
     in
         div [ class "modal-header" ]
             [ a
-                [ class "btn btn-clear float-right"
-                , onClick FormCancel
-                ]
+                [ class "btn btn-clear float-right", onClick FormCancel ]
                 []
             , div [ class "modal-title h5" ]
                 [ text title ]
@@ -131,7 +145,7 @@ formModalView model =
             model.form.isPristine
     in
         div
-            [ class "modal modal-sm"
+            [ class "modal modal-form"
             , classList
                 [ ( "active", model.form.isVisible )
                 ]
@@ -241,3 +255,83 @@ formError error =
 
         Nothing ->
             text ""
+
+
+exportModalView : Model -> Html Msg
+exportModalView model =
+    div
+        [ class "modal"
+        , classList [ ( "active", model.isExporting ) ]
+        ]
+        [ a [ class "modal-overlay", onClick ExportDataCancel ]
+            []
+        , div [ class "modal-container" ]
+            [ div [ class "modal-header" ]
+                [ a
+                    [ class "btn btn-clear float-right", onClick ExportDataCancel ]
+                    []
+                , div [ class "modal-title h5" ]
+                    [ text "Export Data" ]
+                ]
+            , div [ class "modal-body" ]
+                [ div [ class "code" ]
+                    [ code []
+                        [ text model.exportData ]
+                    ]
+                ]
+            , div [ class "modal-footer" ]
+                [ a
+                    [ class "btn btn-link", onClick ExportDataCancel ]
+                    [ text "Done" ]
+                ]
+            ]
+        ]
+
+
+importModalView : Model -> Html Msg
+importModalView model =
+    div
+        [ class "modal"
+        , classList [ ( "active", model.isImporting ) ]
+        ]
+        [ a [ class "modal-overlay", onClick ImportDataCancel ]
+            []
+        , div [ class "modal-container" ]
+            [ div [ class "modal-header" ]
+                [ a
+                    [ class "btn btn-clear float-right", onClick ImportDataCancel ]
+                    []
+                , div [ class "modal-title h5" ]
+                    [ text "Import Data" ]
+                ]
+            , div [ class "modal-body" ]
+                [ div []
+                    [ importError model
+                    , textarea
+                        [ class "form-input import"
+                        , value model.importData
+                        , onInput InputImportData
+                        ]
+                        []
+                    ]
+                ]
+            , div [ class "modal-footer" ]
+                [ a
+                    [ class "btn btn-primary btn-form"
+                    , classList [ ( "disabled", String.length model.importData == 0 || model.isImportError ) ]
+                    , onClick ImportDataSave
+                    ]
+                    [ text "Import" ]
+                ]
+            ]
+        ]
+
+
+importError : Model -> Html Msg
+importError model =
+    if model.isImportError then
+        div [ class "toast toast-error" ]
+            [ text "Dammit! Something is wrong with your data and it couldn't be imported"
+            ]
+    else
+        text ""
