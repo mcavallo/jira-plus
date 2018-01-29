@@ -40,7 +40,14 @@ headerView model =
                         []
                     ]
                 , ul [ class "menu" ]
-                    [ li [ class "divider", attribute "data-content" "DATA" ]
+                    [ li [ class "menu-item" ]
+                        [ a
+                            [ href "https://github.com/mcavallo/jira-plus/issues"
+                            , target "_blank"
+                            ]
+                            [ text "Report issue" ]
+                        ]
+                    , li [ class "divider", attribute "data-content" "DATA" ]
                         []
                     , li [ class "menu-item" ]
                         [ a [ onClick ImportData ]
