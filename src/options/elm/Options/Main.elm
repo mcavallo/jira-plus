@@ -88,12 +88,7 @@ update msg model =
                 ! []
 
         ImportDataCancel ->
-            { model
-                | isImporting = False
-                , isImportError = False
-                , importData = ""
-            }
-                ! []
+            importModalClose model ! []
 
         ImportDataSave ->
             handleImportDataSave model
@@ -178,13 +173,24 @@ handleFormSave model =
             { newModel | teams = (updateTeam model.teams newTeam) }
 
 
+importModalClose : Model -> Model
+importModalClose model =
+    { model
+        | isImporting = False
+        , isImportError = False
+        , importData = ""
+    }
+
+
 handleImportDataSave : Model -> ( Model, Cmd Msg )
 handleImportDataSave model =
     case Base64.decode model.importData of
         Ok result ->
             case decodeImportTeamList result of
                 Ok result ->
-                    update ImportDataCancel { model | teams = result }
+                    { model | teams = result }
+                        |> importModalClose
+                        |> update SetStorageData
 
                 Err err ->
                     update ImportDataFailed model
