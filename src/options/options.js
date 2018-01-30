@@ -23,7 +23,7 @@ const handleSaveToStorage = (teams) => {
 }
 
 const handleClearStorage = () => {
-  storage.remove('teams', () => {
+  storage.set({ teams: [] }, () => {
     app.ports.clearStorageResult
       .send(!chrome.runtime.error)
   })

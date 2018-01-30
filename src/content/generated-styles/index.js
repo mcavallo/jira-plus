@@ -1,35 +1,56 @@
 (() => {
 
+  const storage = chrome.storage.sync
   const head = document.head || document.getElementsByTagName('head')[0]
   const cfg = {
     tagId: 'jira-plus'
   }
 
-  try {
+  const removeStyleElement = (head, id) => {
+    try {
+      head.querySelector(`#${id}`).remove()
+    } catch (e) {}
+  }
 
-    head.querySelector(`#${cfg.tagId}`).remove()
+  const addStyleElement = (head, id, css) => {
+    let tag = document.createElement('style')
+    tag.type = 'text/css'
+    tag.id = id
+    tag.appendChild(document.createTextNode(css))
 
-  } catch (e) {}
+    head.appendChild(tag)
+  }
 
-  let teams = [
-    { name: "Backend (Dashboard)", color: "2e87fb" },
-    { name: "Frontend", color: "fdac2a" },
-  ]
+  const prepareCSS = (teams) => {
+    return teams.map(team => {
+      return `
+        .ghx-issue-compact .ghx-plan-extra-fields .ghx-extra-field[data-tooltip="Team: ${team.name}"],
+        .ghx-issue .ghx-extra-fields .ghx-extra-field[data-tooltip="Team: ${team.name}"]{
+          background: ${team.color};
+        }
+      `
+    }).join('')
+  }
 
-  let css = teams.map(team => {
-    return `
-      .ghx-issue-compact .ghx-plan-extra-fields .ghx-extra-field[data-tooltip="Team: ${team.name}"],
-      .ghx-issue .ghx-extra-fields .ghx-extra-field[data-tooltip="Team: ${team.name}"]{
-        background: #${team.color};
-      }
-    `
-  }).join('')
+  const renderNewStyles = (head, id, teams) => {
+    removeStyleElement(head, id)
+    addStyleElement(head, id, prepareCSS(teams))
+  }
 
-  let tag = document.createElement('style')
-  tag.type = 'text/css'
-  tag.id = cfg.tagId
-  tag.appendChild(document.createTextNode(css))
+  chrome.storage.onChanged.addListener((changes, namespace) => {
+    if (namespace !== 'sync' || !changes.teams) {
+      return;
+    }
 
-  head.appendChild(tag)
+    renderNewStyles(head, cfg.tagId, changes.teams.newValue)
+  })
+
+  storage.get('teams', (data) => {
+    if (!data || !data.teams || !data.teams.length) {
+      return;
+    }
+
+    renderNewStyles(head, cfg.tagId, data.teams)
+  })
 
 })()
