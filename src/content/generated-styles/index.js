@@ -1,24 +1,11 @@
+import { removeStyleElement, addStyleElement } from './../utils/styles'
+
 (() => {
 
   const storage = chrome.storage.sync
   const head = document.head || document.getElementsByTagName('head')[0]
   const cfg = {
     tagId: 'jira-plus'
-  }
-
-  const removeStyleElement = (head, id) => {
-    try {
-      head.querySelector(`#${id}`).remove()
-    } catch (e) {}
-  }
-
-  const addStyleElement = (head, id, css) => {
-    let tag = document.createElement('style')
-    tag.type = 'text/css'
-    tag.id = id
-    tag.appendChild(document.createTextNode(css))
-
-    head.appendChild(tag)
   }
 
   const prepareCSS = (teams) => {

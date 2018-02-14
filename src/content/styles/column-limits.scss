@@ -1,0 +1,11 @@
+.ghx-column.jira-plus-limit-reached {
+  background: #d04437 !important;
+}
+
+.ghx-column-headers {
+  .ghx-column.jira-plus-limit-reached {
+    h2, div, span {
+      color: white !important;
+    }
+  }
+}
