@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "./node_modules/.bin/webpack --watch",
     "build": "./node_modules/.bin/webpack -p",
-    "release": "node ./scripts/release.js"
+    "release": "npm run build; node ./scripts/release.js"
   },
   "devDependencies": {
     "anybar-webpack": "^1.2.0",
