@@ -7,3 +7,36 @@
     padding-left: 0 !important;
   }
 }
+
+div[data-fieldtype="multicheckboxes"] {
+  font-size: 0;
+
+  .shorten {
+    height: auto !important;
+    padding: 3px 0px 0px 1px;
+
+    span {
+      display: block;
+      font-size: 14px;
+      position: relative;
+      padding-left: 20px;
+      margin-top: 5px;
+
+      &:first-of-type {
+        margin-top: 0;
+      }
+
+      &::before {
+        content: "\002714";
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: #6ab04c
+      }
+    }
+  }
+
+  .shortener-collapse {
+    display: none;
+  }
+}
