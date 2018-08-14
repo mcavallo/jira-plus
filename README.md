@@ -11,7 +11,7 @@ Make Jira cloud great again (If it ever was)
 
 ![](https://raw.githubusercontent.com/mcavallo/jira-plus/master/media/install.png)
 
-[latest-release]: https://raw.githubusercontent.com/mcavallo/jira-plus/master/releases/0.1.3.crx
+[latest-release]: https://raw.githubusercontent.com/mcavallo/jira-plus/master/releases/0.1.4.crx
 
 
 ## Features
