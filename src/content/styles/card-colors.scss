@@ -1,43 +1,67 @@
 .ghx-issue {
   border-radius: 0 0 3px 3px;
+}
 
-  .ghx-extra-fields {
-    height: 3px;
-    top: 0;
-    left: 0;
-    right: 0;
-    border-radius: 2px 2px 0 0;
+.ghx-issue-compact .ghx-plan-extra-fields {
+  margin: 0 !important;
+  height: auto !important;
+  padding-left: 42px;
+}
 
-    .ghx-row {
-      height: 100%;
-      max-height: 100%;
+.ghx-issue-compact .ghx-extra-field:not([data-tooltip^="Team:"]) {
+  margin: 0 0 8px 0;
+  padding-left: 18px;
+  position: relative;
+
+  &:first-of-type {
+    padding-left: 0;
+
+    &::before {
+      display: none;
     }
+  }
+
+  &::before {
+    content: ".";
+    color: #999;
+    position: absolute;
+    left: 7px;
+    top: -2px;
+    line-height: 1;
+    font-size: 18px;
+    font-weight: 400;
   }
 }
 
-.ghx-issue-compact .ghx-plan-extra-fields,
-.ghx-issue .ghx-extra-fields {
+.ghx-issue-compact .ghx-extra-field ~ .ghx-extra-field-seperator {
+  display: none !important;
+}
+
+.ghx-issue-compact .ghx-extra-field[data-tooltip^="Team:"],
+.ghx-issue .ghx-extra-field[data-tooltip^="Team:"] {
   top: 0;
   position: absolute !important;
   margin: 0 !important;
   overflow: hidden;
-}
-
-.ghx-issue .ghx-extra-fields {
-  background: rgba(black, .14);
-}
-
-.ghx-issue-compact .ghx-plan-extra-fields {
-  width: 3px !important;
-  height: 100% !important;
-  left: 0px;
   background: rgba(black, .06);
+
+  .ghx-extra-field-content {
+    display: none !important;
+  }
 }
 
-.ghx-issue-compact .ghx-plan-extra-fields .ghx-extra-field,
-.ghx-issue .ghx-extra-fields .ghx-extra-field {
-  color: transparent;
-  width: 100%;
-  height: 100%;
-  display: block;
+.ghx-issue-compact .ghx-extra-field[data-tooltip^="Team:"] {
+  width: 3px !important;
+  min-width: 3px !important;
+  height: 100% !important;
+  left: 0px !important;
+}
+
+.ghx-issue .ghx-extra-field[data-tooltip^="Team:"] {
+  height: 3px !important;
+  width: auto !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  border-radius: 2px 2px 0 0 !important;
 }
