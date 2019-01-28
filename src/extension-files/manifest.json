@@ -1,7 +1,7 @@
 {
   "name": "Jira+",
   "description": "Make Jira cloud great again (If it ever was)",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "icons": {
     "16": "icon/16.png",
     "48": "icon/48.png",
